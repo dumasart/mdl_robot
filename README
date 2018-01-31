@@ -1,0 +1,52 @@
+NOTE POUR MOI MEME
+
+testlight.mdl à remplacer par le controlleur mdl
+period.h pour la partie temporelle
+glue.c pour les connexions entre les interfaces du controlleur.
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------
+- Example of the chain mdl -> lustre -> osek
+  for a single periodic task
+-----------------------------------
+
+Here the "applicative source" is testlight.mdl,
+which is succesively compiled:
+- into Lustre
+- then into C
+
+Function (mdl):
+---------------
+Inputs:
+- c1, c2: 2 integer 
+- b: Boolean
+
+Output:
+- val: integer
+- state: Boolean 
+
+Behavior:
+- "state" is initially false and changes each time "b" is true
+- depending on "state", "val" is equal to "c1" or "c2"
+
+Implantation on the brick (see glue):
+-------------------------------------
+
+- c1: the value of a light_sensor connected to port S1
+- c2: the value of a light_sensor connected to port S2
+- b: the value of a touch_sensor connected to port S3
+
+- outputs val & state displayed on the screen
+
+

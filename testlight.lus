@@ -1,0 +1,20 @@
+-- mdl2lus - 2014 ver. 0.41 (SHA 79444ea)
+-- Tue Nov  7 15:07:49 2017
+node testlight(b: bool; c1: int; c2: int) returns (val: int; state: bool);
+var
+   w_000: bool;
+   w_001: bool;
+   w_002: int;
+   w_003: int;
+   w_004: int;
+   w_005: bool;
+let
+   state = w_001;
+   val = w_002;
+   w_003 = c2;
+   w_005 = b;
+   w_004 = c1;
+   w_000 = (false -> (pre w_001));
+   w_001 = (w_005 <> w_000);
+   w_002 = (if w_001 then w_004 else w_003);
+tel

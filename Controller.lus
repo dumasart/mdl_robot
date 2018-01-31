@@ -1,0 +1,165 @@
+-- mdl2lus - 2014 ver. 0.41 (SHA 79444ea)
+-- Wed Jan 31 17:14:15 2018
+const kp_teta : real;
+const T : real;
+const pi : real;
+const ki_teta : real;
+node Controller(Cg: real; Cd: real; Co_n: real) returns (v_d: real; v_g: real);
+var
+   w_000: bool;
+   w_001: bool;
+   w_002: real;
+   w_003: bool;
+   w_004: bool;
+   w_005: bool;
+   w_006: bool;
+   w_007: bool;
+   w_008: bool;
+   w_009: bool;
+   w_010: bool;
+   w_011: real;
+   w_012: real;
+   w_013: real;
+   w_014: real;
+   w_015: real;
+   w_016: real;
+   w_017: real;
+   w_018: real;
+   w_019: real;
+   w_020: real;
+   w_021: real;
+   w_022: real;
+   w_023: real;
+let
+   w_006 = m__moire_noir_apr__s_un_blanc(w_007, w_000);
+   w_022 = Cg;
+   w_010 = (w_001 and w_004);
+   w_004 = memoire___tat_demi_tour(w_003, w_000);
+   w_011 = 80.0;
+   w_007 = (w_008 and w_009);
+   (w_015, w_013) = Correcteurs_n(w_021, w_023);
+   w_005 = (w_006 and w_010);
+   w_019 = Co_n;
+   w_016 = Cd;
+   w_002 = 10.0;
+   v_d = w_018;
+   w_000 = (false -> (pre w_005));
+   w_012 = 0.5;
+   w_017 = (if w_004 then w_012 else w_013);
+   v_g = w_017;
+   w_003 = (w_019 < w_020);
+   w_009 = (w_016 <= w_002);
+   w_008 = memoire_reset(w_010, w_000);
+   w_018 = (if w_004 then w_014 else w_015);
+   w_014 = (- 0.5);
+   w_001 = (w_016 >= w_011);
+   w_020 = 20.0;
+   (w_021, w_023) = Ecarts(w_022, w_016);
+tel
+node Ecarts(Cg: real; Cd: real) returns (eps_teta: real; eps_delta: real);
+var
+   w_000: real;
+   w_001: real;
+   w_002: real;
+   w_003: real;
+   w_004: real;
+let
+   w_004 = (w_003 - w_002);
+   w_002 = Cg;
+   w_000 = (w_003 + w_002);
+   eps_teta = w_001;
+   w_003 = Cd;
+   eps_delta = w_000;
+   w_001 = ((pi / 200.0) * w_004);
+tel
+node memoire_reset(In1: bool; In2: bool) returns (Out1: bool);
+var
+   w_000: bool;
+   w_001: bool;
+   w_002: bool;
+   w_003: bool;
+   w_004: bool;
+   w_005: bool;
+let
+   w_005 = (w_002 and w_001);
+   Out1 = w_005;
+   w_003 = (false -> (pre w_005));
+   w_002 = (w_003 or w_004);
+   w_001 = (not w_000);
+   w_004 = In1;
+   w_000 = In2;
+tel
+node Correcteurs_n(eps_teta: real; eps_delta: real) returns (v_d: real; v_g: real);
+var
+   w_000: real;
+   w_001: real;
+   w_002: real;
+   w_003: real;
+   w_004: real;
+   w_005: real;
+   w_006: real;
+   w_007: real;
+   w_008: real;
+   w_009: real;
+   w_010: real;
+   w_011: real;
+   w_012: real;
+   w_013: real;
+   w_014: real;
+   w_015: real;
+   w_016: real;
+let
+   w_001 = (w_002 + w_000);
+   w_006 = (0.5 * w_014);
+   w_005 = (0.5 * w_013);
+   w_008 = ((- w_010) + w_011);
+   w_014 = (w_007 + w_009);
+   w_007 = (w_016 + w_015);
+   w_003 = eps_teta;
+   w_015 = (kp_teta * w_003);
+   w_012 = (2.0 * w_007);
+   w_011 = (0.005 * w_004);
+   w_016 = (ki_teta * w_000);
+   v_d = w_006;
+   w_004 = eps_delta;
+   w_002 = (T * w_003);
+   w_000 = (0.0 -> (pre w_001));
+   v_g = w_005;
+   w_010 = (if w_012<0.0 then -w_012 else w_012);
+   w_009 = (2.0 * w_008);
+   w_013 = ((- w_007) + w_009);
+tel
+node memoire___tat_demi_tour(value: bool; reset: bool) returns (Out1: bool);
+var
+   w_000: bool;
+   w_001: bool;
+   w_002: bool;
+   w_003: bool;
+   w_004: bool;
+   w_005: bool;
+let
+   w_002 = value;
+   w_003 = reset;
+   w_005 = (not w_003);
+   Out1 = w_004;
+   w_001 = (w_000 and w_005);
+   w_000 = (false -> (pre w_004));
+   w_004 = (w_002 or w_001);
+tel
+node m__moire_noir_apr__s_un_blanc(In1: bool; In2: bool) returns (Out1: bool);
+var
+   w_000: bool;
+   w_001: bool;
+   w_002: bool;
+   w_003: bool;
+   w_004: bool;
+   w_005: bool;
+let
+   Out1 = w_003;
+   w_000 = (not w_001);
+   w_002 = (false -> (pre w_003));
+   w_004 = (w_005 or w_002);
+   w_003 = (w_004 and w_000);
+   w_005 = In1;
+   w_001 = In2;
+tel
